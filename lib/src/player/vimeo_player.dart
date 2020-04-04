@@ -66,6 +66,16 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
       _isPlaying = controller.value.isPlaying;
       _isBuffering = controller.value.isBuffering;
     });
+    if (_isBuffering) {
+      /* show the UI */
+      setState(() {
+        _uiVisible = true;
+        _uiOpacity = 1.0;
+      });
+    } else {
+      /* start the UI hide */
+      _showHideUi();
+    }
 
   }
 
@@ -107,8 +117,8 @@ class _VimeoPlayerState extends State<VimeoPlayer> {
   _showHideUi() {
     setState(() {
       if (!_uiVisible) {
-          _uiVisible = true;
-          _uiOpacity = 1.0;
+        _uiVisible = true;
+        _uiOpacity = 1.0;
       }
 
       if (t != null && t.isActive) {
