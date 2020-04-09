@@ -2,6 +2,8 @@
 
 A flutter package wrapping the vimeo player using the https://github.com/vimeo/player.js/. loosely based on youtube_player by https://github.com/sarbagyastha
 
+## * Experimental. Only fully functional on Android
+
 Supported Platforms
 * Android
 
