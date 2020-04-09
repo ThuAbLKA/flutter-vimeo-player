@@ -4,10 +4,7 @@ A flutter package wrapping the vimeo player using the https://github.com/vimeo/p
 
 ## * Experimental. Only fully functional on Android
 
-Supported Platforms
-* Android
-
-### Android
+### General Initialization
 
 ```dart
 VimeoPlayerController controller = VimeoPlayerController(
