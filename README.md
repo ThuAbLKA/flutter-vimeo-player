@@ -27,10 +27,14 @@ VimeoPlayer(
 ## Update 200628
 * Added ```SkipDuration``` parameter, which defaults to 5 seconds
 ```dart
-VimeoPlayerController controller = VimeoPlayerController(
-  initialVideoId: '396660461',
+VimeoPlayer(
+  controller: controller,
   skipDuration: 10,
-  flags: VimeoPlayerFlags()
+  onReady: () {
+    setState(() {
+      this._playerReady = true;
+    });
+  },
 );
 ```
 
