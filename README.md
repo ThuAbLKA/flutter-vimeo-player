@@ -23,3 +23,15 @@ VimeoPlayer(
 ```
 
 #### Feel free to fork!
+
+## Update 200628
+* Added ```SkipDuration``` parameter, which defaults to 5 secods
+```dart
+VimeoPlayerController controller = VimeoPlayerController(
+  initialVideoId: '396660461',
+  skipDuration: 10,
+  flags: VimeoPlayerFlags()
+);
+```
+
+* Added double tap to seek
