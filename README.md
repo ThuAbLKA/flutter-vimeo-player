@@ -38,3 +38,6 @@ VimeoPlayerController controller = VimeoPlayerController(
   - When double tapped in the right side, fast forwards the video with incremental steps of defined 'SkipDuration'
   - When double tapped in the left side, rewinds the video with decremental stepd of defined 'SkipDuration'
 
+## Peding Developments
+* Fullscreen support
+* Player setting (play speed etc;)
