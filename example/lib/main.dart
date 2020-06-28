@@ -88,6 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Text(_videoTitle),
             VimeoPlayer(
               controller: controller,
+              skipDuration: 10,
               onReady: () {
                 setState(() {
                   this._playerReady = true;
