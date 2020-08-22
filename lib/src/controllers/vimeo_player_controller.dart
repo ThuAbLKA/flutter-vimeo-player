@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:fluttervimeoplayer/flutter_vimeo_player.dart';
-import 'package:fluttervimeoplayer/src/models/vimeo_meta_data.dart';
-import 'package:webview_media/webview_flutter.dart';
 
 class VimeoPlayerValue {
   final bool isReady;
@@ -14,72 +13,68 @@ class VimeoPlayerValue {
   final double videoDuration;
   final double videoWidth;
   final double videoHeight;
-  final WebViewController webViewController;
+  final InAppWebViewController webViewController;
 
+  VimeoPlayerValue(
+      {this.isReady = false,
+      this.isPlaying = false,
+      this.isFullscreen = false,
+      this.isBuffering = false,
+      this.hasEnded = false,
+      this.videoTitle,
+      this.videoPosition,
+      this.videoDuration,
+      this.videoWidth,
+      this.videoHeight,
+      this.webViewController});
 
-  VimeoPlayerValue({
-    this.isReady = false,
-    this.isPlaying = false,
-    this.isFullscreen = false,
-    this.isBuffering = false,
-    this.hasEnded = false,
-    this.videoTitle,
-    this.videoPosition,
-    this.videoDuration,
-    this.videoWidth,
-    this.videoHeight,
-    this.webViewController
-  });
-
-  VimeoPlayerValue copyWith({
-    bool isReady,
-    bool isPlaying,
-    bool isFullscreen,
-    bool isBuffering,
-    bool hasEnded,
-    String videoTitle,
-    double videoPosition,
-    double videoDuration,
-    double videoWidth,
-    double videoHeight,
-    WebViewController webViewController
-  }) {
+  VimeoPlayerValue copyWith(
+      {bool isReady,
+      bool isPlaying,
+      bool isFullscreen,
+      bool isBuffering,
+      bool hasEnded,
+      String videoTitle,
+      double videoPosition,
+      double videoDuration,
+      double videoWidth,
+      double videoHeight,
+      InAppWebViewController webViewController}) {
     return VimeoPlayerValue(
-      isReady: isReady ?? this.isReady,
-      isPlaying: isPlaying ?? this.isPlaying,
-      isFullscreen: isFullscreen ?? this.isPlaying,
-      isBuffering: isBuffering ?? this.isBuffering,
-      hasEnded: hasEnded ?? this.hasEnded,
-      videoTitle: videoTitle ?? this.videoTitle,
-      videoDuration: videoDuration ?? this.videoDuration,
-      videoWidth: videoWidth ?? this.videoWidth,
-      videoHeight: videoHeight ?? this.videoHeight,
-      videoPosition: videoPosition ?? this.videoPosition,
-      webViewController: webViewController ?? this.webViewController
-    );
+        isReady: isReady ?? this.isReady,
+        isPlaying: isPlaying ?? this.isPlaying,
+        isFullscreen: isFullscreen ?? this.isPlaying,
+        isBuffering: isBuffering ?? this.isBuffering,
+        hasEnded: hasEnded ?? this.hasEnded,
+        videoTitle: videoTitle ?? this.videoTitle,
+        videoDuration: videoDuration ?? this.videoDuration,
+        videoWidth: videoWidth ?? this.videoWidth,
+        videoHeight: videoHeight ?? this.videoHeight,
+        videoPosition: videoPosition ?? this.videoPosition,
+        webViewController: webViewController ?? this.webViewController);
   }
 }
 
-class VimeoPlayerController extends ValueNotifier<VimeoPlayerValue>{
-
+class VimeoPlayerController extends ValueNotifier<VimeoPlayerValue> {
   final String initialVideoId;
   final VimeoPlayerFlags flags;
 
-  VimeoPlayerController({
-    @required this.initialVideoId,
-    this.flags = const VimeoPlayerFlags()
-  }) : assert(initialVideoId != null, 'InitialVideoId is mandetory'), super(VimeoPlayerValue());
+  VimeoPlayerController(
+      {@required this.initialVideoId, this.flags = const VimeoPlayerFlags()})
+      : assert(initialVideoId != null, 'InitialVideoId is mandetory'),
+        super(VimeoPlayerValue());
 
-  factory VimeoPlayerController.of(BuildContext context) => 
-    context.dependOnInheritedWidgetOfExactType<InheritedVimeoPlayer>()
-    ?.controller;
+  factory VimeoPlayerController.of(BuildContext context) => context
+      .dependOnInheritedWidgetOfExactType<InheritedVimeoPlayer>()
+      ?.controller;
 
   void updateValue(VimeoPlayerValue newValue) => value = newValue;
 
-  void toggleFullscreenMode() => updateValue(value.copyWith(isFullscreen: true));
+  void toggleFullscreenMode() =>
+      updateValue(value.copyWith(isFullscreen: true));
 
   void reload() => value.webViewController?.reload();
-  
+
   void play() => _callMethod('play()');
   void pause() => _callMethod('pause()');
   void seekTo(double delta) => _callMethod('seekTo($delta)');
@@ -87,12 +82,11 @@ class VimeoPlayerController extends ValueNotifier<VimeoPlayerValue>{
 
   _callMethod(String methodString) {
     if (value.isReady) {
-      value.webViewController?.evaluateJavascript(methodString);
+      value.webViewController?.evaluateJavascript(source: methodString);
     } else {
       print('The controller is not ready for method calls.');
     }
   }
-
 }
 
 class InheritedVimeoPlayer extends InheritedWidget {
@@ -101,8 +95,8 @@ class InheritedVimeoPlayer extends InheritedWidget {
     Key key,
     @required this.controller,
     @required Widget child,
-  })  : assert(controller != null), 
-  super(key: key, child: child);
+  })  : assert(controller != null),
+        super(key: key, child: child);
 
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {

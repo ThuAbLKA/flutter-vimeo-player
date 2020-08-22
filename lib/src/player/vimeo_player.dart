@@ -263,6 +263,7 @@ class _VimeoPlayerState extends State<VimeoPlayer> with SingleTickerProviderStat
                       _centerUiVisible = true;
                       _initialLoad = true;
                     });
+                    controller.reload();
                   },
                 ),
                 PositionedTapDetector(
@@ -372,8 +373,8 @@ class _VimeoPlayerState extends State<VimeoPlayer> with SingleTickerProviderStat
                                 _seekingF = true;
                               });
                             },
+                            label: _getTimestamp(),
                             onChangeEnd: (end) {
-                              print('value changed: ' + end.toString());
                               controller.seekTo(end.roundToDouble());
                               setState(() {
                                 _seekingF = false;
@@ -381,7 +382,7 @@ class _VimeoPlayerState extends State<VimeoPlayer> with SingleTickerProviderStat
                             },
                             inactiveColor: Colors.blueGrey,
                             min: 0,
-                            max: controller.value.videoDuration??0 + 0.5??0,
+                            max: controller.value.videoDuration != null ? controller.value.videoDuration + 1.0 : 0.0,
                             value: _position,
                             onChanged: (value) {
                               if (!_seekingF) {
@@ -395,7 +396,7 @@ class _VimeoPlayerState extends State<VimeoPlayer> with SingleTickerProviderStat
                         ),
                         Container(
                           child: Text(
-                            _getTimestamp(),
+                            _getTimestamp() + "",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 10

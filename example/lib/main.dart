@@ -94,7 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   this._playerReady = true;
                 });
               },
-            )
+            ),
+            Text(_videoTitle + (controller.value.isBuffering ? " Buffering" : controller.value.isPlaying ? " Playing" : " Ready!") ),
           ],
         )
       ),
